@@ -1,7 +1,6 @@
 ﻿namespace HotReloadRepro;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
-using Windows.Win32;
 
 class Program
 {
@@ -9,10 +8,10 @@ class Program
     {
         while (true)
         {
-            // this breaks: use GetCurrentThreadId from the source-generated code
-            uint threadId = PInvoke.GetCurrentThreadId();
+            // Call GetCurrentThreadId from the source-generated code. This breaks Hot Reload 
+            uint threadId = Windows.Win32.PInvoke.GetCurrentThreadId();
 
-            // this works: use a regular PInvoke, no source generator
+            // Call GetCurrentThreadId from the PInvoke below. This works in Hot Reload
             //uint threadId = GetCurrentThreadId();
 
             Console.WriteLine($"Hello from thread {threadId}");
